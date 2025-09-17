@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Preguntas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    #quiz-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    .option-btn {
+      display: block;
+      margin: 8px auto;
+      padding: 10px 20px;
+      border: none;
+      background: #3498db;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 80%;
+      transition: background 0.3s;
+    }
+    .option-btn:hover {
+      background: #2980b9;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: #27ae60;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+    #next-btn:hover {
+      background: #1e8449;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-box">
+    <h2 id="question">Pregunta aparecerá aquí</h2>
+    <div id="options"></div>
+    <p id="result"></p>
+    <button id="next-btn" onclick="nextQuestion()">Siguiente</button>
+  </div>
+
+  <script>
+    const preguntas = [
+      {
+        pregunta: "¿Cuál es la capital de Perú?",
+        opciones: ["Quito", "Lima", "Bogotá", "Santiago"],
+        respuesta: "Lima"
+      },
+      {
+        pregunta: "¿En qué continente está Egipto?",
+        opciones: ["Asia", "África", "Europa", "Oceanía"],
+        respuesta: "África"
+      },
+      {
+        pregunta: "¿Cuánto es 5 x 6?",
+        opciones: ["30", "25", "20", "35"],
+        respuesta: "30"
+      }
+    ];
+
+    let indice = 0;
+
+    function mostrarPregunta() {
+      const q = preguntas[indice];
+      document.getElementById("question").innerText = q.pregunta;
+      const opcionesDiv = document.getElementById("options");
+      opcionesDiv.innerHTML = "";
+      q.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.innerText = opcion;
+        btn.classList.add("option-btn");
+        btn.onclick = () => verificarRespuesta(opcion);
+        opcionesDiv.appendChild(btn);
+      });
+      document.getElementById("result").innerText = "";
+      document.getElementById("next-btn").style.display = "none";
+    }
+
+    function verificarRespuesta(opcion) {
+      const correcta = preguntas[indice].respuesta;
+      if (opcion === correcta) {
+        document.getElementById("result").innerText = "✅ Correcto!";
+      } else {
+        document.getElementById("result").innerText = "❌ Incorrecto. La respuesta era: " + correcta;
+      }
+      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      indice++;
+      if (indice < preguntas.length) {
+        mostrarPregunta();
+      } else {
+        document.getElementById("quiz-box").innerHTML = "<h2>🎉 Juego terminado</h2><p>¡Gracias por jugar!</p>";
+      }
+    }
+
+    mostrarPregunta();
+  </script>
+</body>
+</html>
+
