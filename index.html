@@ -3,23 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de Cultura</title>
-  <link rel="icon" href="icono.png" type="image/png"> <!-- Tu ícono -->
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: #333; color: white; padding: 15px; text-align: center; }
-    nav ul { list-style: none; display: flex; justify-content: center; background: #444; margin: 0; padding: 10px; }
-    nav ul li { margin: 0 15px; }
-    nav ul li a { color: white; text-decoration: none; }
-    .contenedor { padding: 20px; }
-    .pregunta { font-size: 20px; margin-bottom: 10px; }
-    .opcion { margin: 5px 0; }
-    button { padding: 10px; margin-top: 10px; cursor: pointer; }
-  </style>
+  <title>Juego de Cultura e Historia</title>
+  <link rel="icon" href="icono.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Juego de Cultura General</h1>
+    <h1>Juego de Cultura e Historia</h1>
   </header>
 
   <nav>
@@ -30,34 +20,34 @@
     </ul>
   </nav>
 
-  <div class="contenedor">
+  <main class="contenedor">
     <div id="juego">
       <div class="pregunta" id="pregunta"></div>
       <div id="opciones"></div>
       <button onclick="siguientePregunta()">Siguiente</button>
     </div>
-  </div>
+    <div id="resultado"></div>
+    <button id="reiniciar" onclick="reiniciarJuego()" style="display:none;">🔄 Reiniciar</button>
+  </main>
 
   <script>
     const preguntas = [
-      {
-        texto: "¿Cuál es la capital de Perú?",
-        opciones: ["Quito", "Lima", "Bogotá"],
-        correcta: 1
-      },
-      {
-        texto: "¿Quién pintó la Mona Lisa?",
-        opciones: ["Picasso", "Leonardo da Vinci", "Van Gogh"],
-        correcta: 1
-      },
-      {
-        texto: "¿En qué continente está Egipto?",
-        opciones: ["Asia", "África", "Europa"],
-        correcta: 1
-      }
+      // Cultura general
+      { texto: "¿Cuál es la capital de Perú?", opciones: ["Quito", "Lima", "Bogotá"], correcta: 1 },
+      { texto: "¿Quién pintó la Mona Lisa?", opciones: ["Picasso", "Leonardo da Vinci", "Van Gogh"], correcta: 1 },
+      { texto: "¿En qué continente está Egipto?", opciones: ["Asia", "África", "Europa"], correcta: 1 },
+      { texto: "¿Cuál es el planeta más grande del sistema solar?", opciones: ["Saturno", "Júpiter", "Marte"], correcta: 1 },
+      // Historia
+      { texto: "¿En qué año llegó Cristóbal Colón a América?", opciones: ["1492", "1500", "1512"], correcta: 0 },
+      { texto: "¿Quién fue el primer emperador romano?", opciones: ["Julio César", "Augusto", "Nerón"], correcta: 1 },
+      { texto: "¿En qué año cayó el Imperio Romano de Occidente?", opciones: ["476 d.C.", "1000 d.C.", "1453 d.C."], correcta: 0 },
+      { texto: "¿Qué civilización construyó Machu Picchu?", opciones: ["Mayas", "Aztecas", "Incas"], correcta: 2 },
+      { texto: "¿Quién fue el libertador de gran parte de Sudamérica?", opciones: ["Simón Bolívar", "José de San Martín", "Bernardo O'Higgins"], correcta: 0 },
+      { texto: "¿Cuál fue la primera civilización de la historia?", opciones: ["Egipcios", "Sumerios", "Griegos"], correcta: 1 }
     ];
 
     let indice = 0;
+    let puntaje = 0;
 
     function mostrarPregunta() {
       const pregunta = preguntas[indice];
@@ -76,6 +66,7 @@
     function verificarRespuesta(i) {
       if (i === preguntas[indice].correcta) {
         alert("✅ Correcto!");
+        puntaje++;
       } else {
         alert("❌ Incorrecto");
       }
@@ -86,17 +77,25 @@
       if (indice < preguntas.length) {
         mostrarPregunta();
       } else {
-        alert("🎉 ¡Has terminado el juego!");
-        indice = 0;
-        mostrarPregunta();
+        document.getElementById("juego").style.display = "none";
+        document.getElementById("resultado").innerHTML =
+          🎉 Juego terminado. Tu puntaje fue: <b>${puntaje} / ${preguntas.length}</b>;
+        document.getElementById("reiniciar").style.display = "inline-block";
       }
     }
 
-    // Mostrar la primera pregunta al cargar
+    function reiniciarJuego() {
+      indice = 0;
+      puntaje = 0;
+      document.getElementById("juego").style.display = "block";
+      document.getElementById("resultado").innerHTML = "";
+      document.getElementById("reiniciar").style.display = "none";
+      mostrarPregunta();
+    }
+
+    // Inicia el juego
     mostrarPregunta();
   </script>
 </body>
 </html>
-
-
 
