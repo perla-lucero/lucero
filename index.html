@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,8 +78,8 @@
         mostrarPregunta();
       } else {
         document.getElementById("juego").style.display = "none";
-        document.getElementById("resultado").innerHTML =
-          🎉 Juego terminado. Tu puntaje fue: <b>${puntaje} / ${preguntas.length}</b>;
+        document.getElementById("resultado").innerHTML = 
+          "Juego terminado. Tu puntaje fue: <b>${puntaje} / ${preguntas.length}</b>";
         document.getElementById("reiniciar").style.display = "inline-block";
       }
     }
