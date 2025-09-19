@@ -2,126 +2,100 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Juego de Preguntas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Cultura</title>
+  <link rel="icon" href="icono.png" type="image/png"> <!-- Tu ícono -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f4f6f8;
-      padding: 40px;
-    }
-    #quiz-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 15px;
-      width: 400px;
-      margin: auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      margin-bottom: 15px;
-    }
-    .option-btn {
-      display: block;
-      margin: 8px auto;
-      padding: 10px 20px;
-      border: none;
-      background: #3498db;
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 80%;
-      transition: background 0.3s;
-    }
-    .option-btn:hover {
-      background: #2980b9;
-    }
-    #result {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    #next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      background: #27ae60;
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      display: none;
-    }
-    #next-btn:hover {
-      background: #1e8449;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { background: #333; color: white; padding: 15px; text-align: center; }
+    nav ul { list-style: none; display: flex; justify-content: center; background: #444; margin: 0; padding: 10px; }
+    nav ul li { margin: 0 15px; }
+    nav ul li a { color: white; text-decoration: none; }
+    .contenedor { padding: 20px; }
+    .pregunta { font-size: 20px; margin-bottom: 10px; }
+    .opcion { margin: 5px 0; }
+    button { padding: 10px; margin-top: 10px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div id="quiz-box">
-    <h2 id="question">Pregunta aparecerá aquí</h2>
-    <div id="options"></div>
-    <p id="result"></p>
-    <button id="next-btn" onclick="nextQuestion()">Siguiente</button>
+  <header>
+    <h1>Juego de Cultura General</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Juego</a></li>
+      <li><a href="#">Acerca de</a></li>
+    </ul>
+  </nav>
+
+  <div class="contenedor">
+    <div id="juego">
+      <div class="pregunta" id="pregunta"></div>
+      <div id="opciones"></div>
+      <button onclick="siguientePregunta()">Siguiente</button>
+    </div>
   </div>
 
   <script>
     const preguntas = [
       {
-        pregunta: "¿Cuál es la capital de Perú?",
-        opciones: ["Quito", "Lima", "Bogotá", "Santiago"],
-        respuesta: "Lima"
+        texto: "¿Cuál es la capital de Perú?",
+        opciones: ["Quito", "Lima", "Bogotá"],
+        correcta: 1
       },
       {
-        pregunta: "¿En qué continente está Egipto?",
-        opciones: ["Asia", "África", "Europa", "Oceanía"],
-        respuesta: "África"
+        texto: "¿Quién pintó la Mona Lisa?",
+        opciones: ["Picasso", "Leonardo da Vinci", "Van Gogh"],
+        correcta: 1
       },
       {
-        pregunta: "¿Cuánto es 5 x 6?",
-        opciones: ["30", "25", "20", "35"],
-        respuesta: "30"
+        texto: "¿En qué continente está Egipto?",
+        opciones: ["Asia", "África", "Europa"],
+        correcta: 1
       }
     ];
 
     let indice = 0;
 
     function mostrarPregunta() {
-      const q = preguntas[indice];
-      document.getElementById("question").innerText = q.pregunta;
-      const opcionesDiv = document.getElementById("options");
+      const pregunta = preguntas[indice];
+      document.getElementById("pregunta").innerText = pregunta.texto;
+      const opcionesDiv = document.getElementById("opciones");
       opcionesDiv.innerHTML = "";
-      q.opciones.forEach(opcion => {
+      pregunta.opciones.forEach((opcion, i) => {
         const btn = document.createElement("button");
         btn.innerText = opcion;
-        btn.classList.add("option-btn");
-        btn.onclick = () => verificarRespuesta(opcion);
+        btn.className = "opcion";
+        btn.onclick = () => verificarRespuesta(i);
         opcionesDiv.appendChild(btn);
       });
-      document.getElementById("result").innerText = "";
-      document.getElementById("next-btn").style.display = "none";
     }
 
-    function verificarRespuesta(opcion) {
-      const correcta = preguntas[indice].respuesta;
-      if (opcion === correcta) {
-        document.getElementById("result").innerText = "✅ Correcto!";
+    function verificarRespuesta(i) {
+      if (i === preguntas[indice].correcta) {
+        alert("✅ Correcto!");
       } else {
-        document.getElementById("result").innerText = "❌ Incorrecto. La respuesta era: " + correcta;
+        alert("❌ Incorrecto");
       }
-      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
-      document.getElementById("next-btn").style.display = "inline-block";
     }
 
-    function nextQuestion() {
+    function siguientePregunta() {
       indice++;
       if (indice < preguntas.length) {
         mostrarPregunta();
       } else {
-        document.getElementById("quiz-box").innerHTML = "<h2>🎉 Juego terminado</h2><p>¡Gracias por jugar!</p>";
+        alert("🎉 ¡Has terminado el juego!");
+        indice = 0;
+        mostrarPregunta();
       }
     }
 
+    // Mostrar la primera pregunta al cargar
     mostrarPregunta();
   </script>
 </body>
 </html>
+
 
